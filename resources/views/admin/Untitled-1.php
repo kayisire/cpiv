@@ -1,8 +1,6 @@
-@extends('layouts.app')
-@section('content')
 <div class="wrapper create-pizza">
 <h1>create a new type of User</h1>
-<form action="/admin/create_users" method="POST">
+<form action="{{ name('createTypes) }}" method="POST">
 @csrf
 <label for="name">Type of User:</label>
 <input type="text" id="name" name="name">
@@ -14,4 +12,3 @@
 <input type="submit" value="Register type">
 </form>
 </div>
-@endsection 
