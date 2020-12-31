@@ -1,17 +1,20 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserTypeController;
-use App\Http\Controllers\UserByTypeController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserByTypeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserTypeController;
 
 Auth::routes();
-
+Route::get('/', [AdminController::class, 'welcome']);
 Route::get('/home', [AdminController::class, 'index'])->middleware('auth');
-Route::get('/admin/types', [UserTypeController::class, 'index'])->middleware('auth');
-Route::post('/admin/types/create', [UserTypeController::class, 'store'])->middleware('auth')->name('createTypes');
+
+Route::get('/accounts', [UserController::class, 'index'])->middleware('auth');
+Route::get('/projects', [ProjectController::class, 'index'])->middleware('auth');
+
+Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
+Route::post('/profile', [ProfileController::class, 'store'])->middleware('auth')->name('profile');

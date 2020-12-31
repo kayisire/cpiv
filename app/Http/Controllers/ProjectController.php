@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 
-class UserTypeController extends Controller {
+class ProjectController extends Controller {
     public function index(){
         return "U S E R";
     }
