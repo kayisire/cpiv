@@ -13,7 +13,7 @@ class AdminController extends Controller {
     }
 
     public function index() {
-        $profile = Profile::where('users_id', Auth::user()->id)->first();
+        $profile = Profile::where('user_id', Auth::user()->id)->first();
         if(!$profile){
             return redirect('profile');
         }

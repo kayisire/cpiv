@@ -21,9 +21,8 @@ class CreateProfilesTable extends Migration
             $table->string('phone');
             $table->string('gender');
             $table->string('address');
-            $table->string('status');
-            $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')->references('id')->on('users');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->boolean('isActive');
             $table->timestamps();
         });

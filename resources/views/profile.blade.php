@@ -94,6 +94,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="type" class="col-md-3 col-form-label text-md-right">User Type</label>
+                            <div class="col-md-9">
+                                <input id="type" type="text" class="form-control" value="{{ $type }}" disabled>
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary float-right">

@@ -9,11 +9,15 @@ use Redirect;
 use Validator;
 
 use App\Models\User;
+use App\Models\UserByType;
 use App\Models\Profile;
 
 class ProfileController extends Controller {
     public function index(){
-        $profile = Profile::where('users_id', Auth::user()->id)->first();
+        $userType = UserByType::where('user_id', Auth::user()->id)->first();
+        $type = "N/A";
+
+        $profile = Profile::where('user_id', Auth::user()->id)->first();
         if(!$profile){
             return view('profile', [
                 "fullnames" => "",
@@ -22,6 +26,7 @@ class ProfileController extends Controller {
                 "phone" => "",
                 "gender" => "",
                 "address" => "",
+                "type" => $type
             ]);
         }
 
@@ -31,7 +36,8 @@ class ProfileController extends Controller {
             "tin" => $profile->tin,
             "phone" => $profile->phone,
             "gender" => $profile->gender,
-            "address" => $profile->address
+            "address" => $profile->address,
+            "type" => $type
         ]);
     }
 
@@ -49,7 +55,7 @@ class ProfileController extends Controller {
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $profile = Profile::where('users_id', Auth::user()->id)->first();
+        $profile = Profile::where('user_id', Auth::user()->id)->first();
         if(!$profile){
             $profile = new Profile;
             $profile->fullnames = $request->fullnames;
@@ -58,8 +64,7 @@ class ProfileController extends Controller {
             $profile->phone = $request->phone;
             $profile->gender = $request->gender;
             $profile->address = $request->address;
-            $profile->status = 1;
-            $profile->users_id = Auth::user()->id;
+            $profile->user_id = Auth::user()->id;
             $profile->isActive = 1;
             $profile->save();
         } else {
@@ -69,8 +74,7 @@ class ProfileController extends Controller {
             $profile->phone = $request->phone;
             $profile->gender = $request->gender;
             $profile->address = $request->address;
-            $profile->status = 1;
-            $profile->users_id = Auth::user()->id;
+            $profile->user_id = Auth::user()->id;
             $profile->isActive = 1;
             $profile->save();
         }

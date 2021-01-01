@@ -13,14 +13,12 @@ class CreateUserByTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_by_type', function (Blueprint $table) {
-
+        Schema::create('user_by_types', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_types_id');
-            $table->unsignedBigInteger('users_id');
-            $table->foreign('user_types_id')->references('id')->on('user_types');
-            $table->foreign('users_id')->references('id')->on('users');
-            $table->boolean('isActive');
+            $table->unsignedBigInteger('user_type_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_type_id')->references('id')->on('user_types');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -32,9 +30,6 @@ class CreateUserByTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_by_type');
-      //  tried: $table->dropForeign('user_id'); $
-        //table->dropIndex('user_id');
-         //$table->dropColumn('user_id');
+        Schema::dropIfExists('user_by_types');
     }
 }

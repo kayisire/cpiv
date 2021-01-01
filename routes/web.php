@@ -14,6 +14,17 @@ Route::get('/', [AdminController::class, 'welcome']);
 Route::get('/home', [AdminController::class, 'index'])->middleware('auth');
 
 Route::get('/accounts', [UserController::class, 'index'])->middleware('auth');
+Route::get('/accounts/types/new', [UserController::class, 'newType'])->middleware('auth');
+Route::post('/accounts/types/new', [UserController::class, 'addType'])->middleware('auth')->name('types');
+Route::get('/accounts/types/{id}/activate', [UserController::class, 'activateType'])->middleware('auth');
+Route::get('/accounts/types/{id}/disable', [UserController::class, 'disableType'])->middleware('auth');
+Route::get('/accounts/types', [UserController::class, 'types'])->middleware('auth');
+Route::get('/accounts/{id}/activate', [UserController::class, 'activateAccount'])->middleware('auth');
+Route::get('/accounts/{id}/disable', [UserController::class, 'disableAccount'])->middleware('auth');
+Route::get('/accounts/{id}/assign', [UserController::class, 'assignAccount'])->middleware('auth');
+Route::post('/accounts/assign', [UserController::class, 'makeAssignAccount'])->middleware('auth')->name('assignType');
+Route::get('/accounts/{userId}/assign/{typeId}/remove', [UserController::class, 'removeAssignAccount'])->middleware('auth');
+
 Route::get('/projects', [ProjectController::class, 'index'])->middleware('auth');
 
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');

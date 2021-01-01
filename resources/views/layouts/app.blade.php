@@ -37,19 +37,19 @@
                     @auth
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item mr-4">
-                            <a href="/home" class="nav-link">
+                            <a href="/home" class="nav-link {{ Request::is(['home']) ? 'active' : null }}">
                                 <i class="fa fa-home mr-2"></i>
                                 Dashboard
                             </a>
                         </li>
                         <li class="nav-item mr-4">
-                            <a href="/accounts" class="nav-link">
+                            <a href="/accounts" class="nav-link {{ Request::is(['accounts', 'accounts/types/new', 'accounts/types', 'accounts/assign']) ? 'active' : null }}">
                                 <i class="fa fa-users mr-2"></i>
                                 Manage Accounts
                             </a>
                         </li>
                         <li class="nav-item mr-4">
-                            <a href="/projects" class="nav-link">
+                            <a href="/projects" class="nav-link {{ Request::is(['projects']) ? 'active' : null }}">
                                 <i class="fa fa-boxes mr-2"></i>
                                 Manage Projects
                             </a>
@@ -63,28 +63,36 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link {{ Request::is(['login']) ? 'active' : null }}" href="{{ route('login') }}">
+                                        <i class="fa fa-sign-in-alt mr-2"></i>
+                                        Login
+                                    </a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link {{ Request::is(['register']) ? 'active' : null }}" href="{{ route('register') }}">
+                                        <i class="fa fa-user-plus mr-2"></i>
+                                        Register
+                                    </a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle {{ Request::is(['profile']) ? 'active' : null }}" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <i class="fa fa-user mr-2"></i>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/profile">My Profile</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                    <a class="dropdown-item" href="/profile">
+                                        <i class="fa fa-cogs mr-2"></i>
+                                        My Profile
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-sign-out-alt mr-2"></i>
+                                        Logout
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
