@@ -49,7 +49,7 @@
                             </a>
                         </li>
                         <li class="nav-item mr-4">
-                            <a href="/projects" class="nav-link {{ Request::is(['projects']) ? 'active' : null }}">
+                            <a href="/projects/pending" class="nav-link {{ Request::is(['projects', 'projects/*']) ? 'active' : null }}">
                                 <i class="fa fa-boxes mr-2"></i>
                                 Manage Projects
                             </a>

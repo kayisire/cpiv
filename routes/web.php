@@ -26,6 +26,14 @@ Route::post('/accounts/assign', [UserController::class, 'makeAssignAccount'])->m
 Route::get('/accounts/{userId}/assign/{typeId}/remove', [UserController::class, 'removeAssignAccount'])->middleware('auth');
 
 Route::get('/projects', [ProjectController::class, 'index'])->middleware('auth');
+Route::get('/projects/new', [ProjectController::class, 'new'])->middleware('auth');
+Route::post('/projects/new', [ProjectController::class, 'store'])->middleware('auth')->name('projects');
+Route::get('/projects/pending', [ProjectController::class, 'pending'])->middleware('auth');
+Route::get('/projects/all', [ProjectController::class, 'all'])->middleware('auth');
+Route::get('/projects/{id}/approve', [ProjectController::class, 'approve'])->middleware('auth');
+Route::get('/projects/{id}/suspend', [ProjectController::class, 'suspend'])->middleware('auth');
+Route::get('/projects/{id}/delete', [ProjectController::class, 'delete'])->middleware('auth');
+Route::get('/projects/{id}/view', [ProjectController::class, 'view'])->middleware('auth');
 
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::post('/profile', [ProfileController::class, 'store'])->middleware('auth')->name('profile');
