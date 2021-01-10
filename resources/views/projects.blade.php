@@ -59,7 +59,7 @@
                                     <small>{{ $project->email }}</small><br>
                                     <small class="text-muted">{{ $project->phone }}</small>
                                 </td>
-                                @if(REQUEST::routeIs('projects/pending'))
+                                @if(REQUEST::is('projects/pending'))
                                 <td>
                                     <a href="/projects/{{ $project->id }}/approve" class="btn btn-sm btn-outline-success float-right my-1">
                                         <i class="fa fa-check"></i>
