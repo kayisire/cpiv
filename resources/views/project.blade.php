@@ -37,12 +37,79 @@
                     </span>
                 </div>
                 <div class="card-body">
-                    <img src="{{ asset('/img/placeholder.png') }}" class="mb-3">
+                    @if (session()->has('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+                    <img src="{{ $project->pic_url }}" alt="" width="500" class="mb-3">
                     <hr>
                     <h3 class="h3 font-weight-bold">{{ $project->title }}</h3>
-                    <p><span class="font-weight-bold">Description: </span><br>{{ $project->description }}</p>
-                    <p><span class="font-weight-bold">Owner: </span> You</p>
-                    <p><span class="font-weight-bold">Uploaded: </span> {{ $project->created_at->diffForHumans() }}</p>
+                    <p>
+                        <span class="font-weight-bold">Amount: </span><br>
+                        <span class="h4 font-weight-bold">{{ number_format($project->amount) }} Rwf</span>
+                    </p>
+                    <p>
+                        <span class="font-weight-bold">Description: </span><br>
+                        <span class="h5">{{ $project->description }}</span>
+                    </p>
+                    <p>
+                        <span class="font-weight-bold">Additional Document: </span><br>
+                        <a href="{{ $project->files }}" class="btn btn-md btn-outline-primary">Download Files Here</a>
+                    </p>
+                    @if ($project->signedDocument)
+                    <p>
+                        <span class="font-weight-bold">Signed Document: </span><br>
+                        <a href="{{ $project->signedDocument }}" class="btn btn-md btn-outline-primary">Download Files Here</a>
+                    </p>
+                    @endif
+                    <p>
+                        <span class="font-weight-bold">Owner: </span>You
+                    </p>
+                    <p>
+                        <span class="font-weight-bold">Uploaded: </span> {{ $project->created_at->diffForHumans() }}
+                    </p>
+                    @if ($project->approvedLocation)
+                    <h6 class="h6 font-weight-bold">Selected Location:</h6>
+                    <table class="table table-hover">
+                        <thead>
+                            <th>UPI Code #</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>{{ $project->approvedLocation }}</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @elseif($project->isActive == 1)
+                    <h6 class="h6 font-weight-bold">Proposed Locations: <span class="badge badge-pill badge-warning">New</span></h6>
+                    <table class="table table-hover">
+                        <thead>
+                            <th>UPI Code #</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>{{ $project->location1 }}</b></td>
+                                <td>
+                                    <a href="/projects/{{ $project->id }}/approve/1/location" class="btn btn-sm btn-outline-success float-right"><i class="fa fa-check"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>{{ $project->location2 }}</b></td>
+                                <td>
+                                    <a href="/projects/{{ $project->id }}/approve/2/location" class="btn btn-sm btn-outline-success float-right"><i class="fa fa-check"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>{{ $project->location3 }}</b></td>
+                                <td>
+                                    <a href="/projects/{{ $project->id }}/approve/3/location" class="btn btn-sm btn-outline-success float-right"><i class="fa fa-check"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @endif
                 </div>
             </div>
         </div>
