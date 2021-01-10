@@ -41,9 +41,42 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="pic_url" class="col-md-3 col-form-label text-md-right">Picture</label>
+                            <label for="description" class="col-md-3 col-form-label text-md-right">Description</label>
                             <div class="col-md-9">
-                                <input id="pic_url" type="file" class="form-control @error('pic_url') is-invalid @enderror" name="pic_url" value="{{ old('pic_url') }}" required>
+                                <textarea id="description" cols="30" rows="5" class="form-control @error('description') is-invalid @enderror" name="description" required>{{ old('description') }}</textarea>
+                                @error('description')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="amount" class="col-md-3 col-form-label text-md-right">Amount <br><small class="text-muted">(in RWF)</small></label>
+                            <div class="col-md-9">
+                                <input id="amount" type="number" class="form-control @error('amount') is-invalid @enderror" name="amount" value="{{ old('amount') }}" required>
+                                @error('amount')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="completionDate" class="col-md-3 col-form-label text-md-right">Completion Date</label>
+                            <div class="col-md-9">
+                                <input id="completionDate" type="date" class="form-control @error('completionDate') is-invalid @enderror" name="completionDate" value="{{ old('completionDate') }}" required>
+                                @error('completionDate')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="pic_url" class="col-md-3 col-form-label text-md-right">Picture <br><small class="text-muted">(in JPG, PNG)</small></label>
+                            <div class="col-md-9">
+                                <input id="pic_url" type="file" accept="image/*" class="form-control @error('pic_url') is-invalid @enderror" name="pic_url" value="{{ old('pic_url') }}" required>
                                 @error('pic_url')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -52,10 +85,10 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="description" class="col-md-3 col-form-label text-md-right">Description</label>
+                            <label for="files" class="col-md-3 col-form-label text-md-right">Additional Document <br><small class="text-muted">(in PDF)</small></label>
                             <div class="col-md-9">
-                                <textarea id="description" cols="30" rows="5" class="form-control @error('description') is-invalid @enderror" name="description" required>{{ old('description') }}</textarea>
-                                @error('description')
+                                <input id="files" type="file" accept="application/pdf" class="form-control @error('files') is-invalid @enderror" name="files" value="{{ old('files') }}" required>
+                                @error('files')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
