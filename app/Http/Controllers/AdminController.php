@@ -39,8 +39,8 @@ class AdminController extends Controller {
         }
 
         $check = DB::table('users')
-                        ->join('profile', 'profile.user_id', 'users.id')
-                        ->select('users.id', 'profile.isActive')
+                        ->join('profiles', 'profiles.user_id', 'users.id')
+                        ->select('users.id', 'profiles.isActive')
                         ->first();
         if(!$check->isActive) {
             return redirect('/locked');
