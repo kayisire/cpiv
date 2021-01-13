@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserByTypeController;
@@ -38,6 +39,18 @@ Route::get('/projects/{id}/suspend', [ProjectController::class, 'suspend'])->mid
 Route::get('/projects/{id}/delete', [ProjectController::class, 'delete'])->middleware('auth');
 Route::get('/projects/{id}/view', [ProjectController::class, 'view'])->middleware('auth');
 Route::get('/projects/{id}/approve/{location}/location', [ProjectController::class, 'approveLocation'])->middleware('auth');
+
+Route::get('/investments', [InvestmentController::class, 'all'])->middleware('auth');
+Route::get('/investments/{id}/new', [InvestmentController::class, 'new'])->middleware('auth');
+Route::post('/investments/new', [InvestmentController::class, 'makeNew'])->middleware('auth')->name('invest');
+Route::get('/investments/my', [InvestmentController::class, 'my'])->middleware('auth');
+
+Route::get('/investments/pending', [InvestmentController::class, 'pending'])->middleware('auth');
+Route::get('/investments/all', [InvestmentController::class, 'allMade'])->middleware('auth');
+Route::get('/investments/{id}/view', [InvestmentController::class, 'view'])->middleware('auth');
+Route::get('/investments/{id}/approve', [InvestmentController::class, 'approve'])->middleware('auth');
+Route::get('/investments/{id}/suspend', [InvestmentController::class, 'suspend'])->middleware('auth');
+Route::get('/investments/{id}/delete', [InvestmentController::class, 'delete'])->middleware('auth');
 
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::post('/profile', [ProfileController::class, 'store'])->middleware('auth')->name('profile');
