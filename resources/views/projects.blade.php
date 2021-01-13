@@ -45,7 +45,7 @@
                             <tr>
                                 <td>
                                     <a href="/projects/{{ $project->id }}/view">
-                                        <img src="{{ asset('/img/placeholder.png') }}" alt="" width="75">
+                                        <img src="{{ $project->pic_url }}" alt="" width="75">
                                     </a>
                                 </td>
                                 <td>

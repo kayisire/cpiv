@@ -64,10 +64,13 @@
                     </p>
                     @endif
                     <p>
-                        <span class="font-weight-bold">Owner: </span>You
+                        <span class="font-weight-bold">Owner: </span><br>
+                        <span>{{ $project->fullnames }}</span><br>
+                        <small>{{ $project->email }}</small><br>
+                        <small class="text-muted">{{ $project->phone }}</small>
                     </p>
                     <p>
-                        <span class="font-weight-bold">Uploaded: </span> {{ $project->created_at->diffForHumans() }}
+                        <span class="font-weight-bold">Uploaded: </span> {{ \Carbon\Carbon::parse($project->created_at)->diffForHumans() }}
                     </p>
                     @if ($project->approvedLocation)
                     <h6 class="h6 font-weight-bold">Selected Location:</h6>
