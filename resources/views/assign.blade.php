@@ -64,6 +64,13 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="form-group row mb-0">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    Assign Type
+                                </button>
+                            </div>
+                        </div>
                         @if (count($userTypesAssigned))
                         <hr>
                         <h6 class="h6 font-weight-bold">User Types Assigned:</h6>
@@ -84,13 +91,6 @@
                             </tbody>
                         </table>
                         @endif
-                        <div class="form-group row mb-0">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary float-right">
-                                    Assign Type
-                                </button>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </div>
