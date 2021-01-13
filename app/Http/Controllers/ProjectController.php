@@ -115,7 +115,7 @@ class ProjectController extends Controller {
         $projects = DB::table('projects')
                     ->join('profiles', 'projects.user_id', 'profiles.user_id')
                     ->join('users', 'profiles.user_id', 'users.id')
-                    ->select('projects.id', 'projects.title', 'projects.description', 'profiles.fullnames', 'users.email', 'profiles.phone', 'projects.isActive', 'projects.created_at')
+                    ->select('projects.id', 'projects.title', 'projects.pic_url', 'projects.description', 'profiles.fullnames', 'users.email', 'profiles.phone', 'projects.isActive', 'projects.created_at')
                     ->where('projects.isActive', 0)
                     ->get();
 
