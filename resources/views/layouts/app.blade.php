@@ -55,6 +55,12 @@
                                 Manage Projects
                             </a>
                         </li>
+                        <li class="nav-item mr-4">
+                            <a href="/investments" class="nav-link {{ Request::is(['investments', 'investments/*']) ? 'active' : null }}">
+                                <i class="fa fa-money-bill-wave mr-2"></i>
+                                Investments
+                            </a>
+                        </li>
                     </ul>
                     @endauth
 
