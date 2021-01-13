@@ -23,7 +23,34 @@ class InvestmentController extends Controller {
                     ->where('projects.isActive', 1)
                     ->get();
 
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        foreach ($loggedIn as $key => $value) {
+            if($value->user_type_id == "1") {
+                $loggedIn->administrator = true;
+            }
+            if($value->user_type_id == "2") {
+                $loggedIn->project = true;
+            }
+            if($value->user_type_id == "3") {
+                $loggedIn->investor = true;
+            }
+            if($value->user_type_id == "4") {
+                $loggedIn->RHA = true;
+            }
+            if($value->user_type_id == "5") {
+                $loggedIn->RDB = true;
+            }
+        }
         return view('investProjects', [
+            'loggedIn' => $loggedIn,
             'projects' => $projects
         ]);
     }
@@ -36,7 +63,34 @@ class InvestmentController extends Controller {
                     ->where('projects.id', $id)
                     ->first();
 
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        foreach ($loggedIn as $key => $value) {
+            if($value->user_type_id == "1") {
+                $loggedIn->administrator = true;
+            }
+            if($value->user_type_id == "2") {
+                $loggedIn->project = true;
+            }
+            if($value->user_type_id == "3") {
+                $loggedIn->investor = true;
+            }
+            if($value->user_type_id == "4") {
+                $loggedIn->RHA = true;
+            }
+            if($value->user_type_id == "5") {
+                $loggedIn->RDB = true;
+            }
+        }
         return view('investProject', [
+            'loggedIn' => $loggedIn,
             'project' => $project
         ]);
     }
@@ -71,7 +125,34 @@ class InvestmentController extends Controller {
                     ->where('projects.user_id', Auth::user()->id)
                     ->get();
 
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        foreach ($loggedIn as $key => $value) {
+            if($value->user_type_id == "1") {
+                $loggedIn->administrator = true;
+            }
+            if($value->user_type_id == "2") {
+                $loggedIn->project = true;
+            }
+            if($value->user_type_id == "3") {
+                $loggedIn->investor = true;
+            }
+            if($value->user_type_id == "4") {
+                $loggedIn->RHA = true;
+            }
+            if($value->user_type_id == "5") {
+                $loggedIn->RDB = true;
+            }
+        }
         return view('myInvestments', [
+            'loggedIn' => $loggedIn,
             'investments' => $investments
         ]);
     }
@@ -85,7 +166,34 @@ class InvestmentController extends Controller {
                     ->where('investments.isActive', 0)
                     ->get();
 
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        foreach ($loggedIn as $key => $value) {
+            if($value->user_type_id == "1") {
+                $loggedIn->administrator = true;
+            }
+            if($value->user_type_id == "2") {
+                $loggedIn->project = true;
+            }
+            if($value->user_type_id == "3") {
+                $loggedIn->investor = true;
+            }
+            if($value->user_type_id == "4") {
+                $loggedIn->RHA = true;
+            }
+            if($value->user_type_id == "5") {
+                $loggedIn->RDB = true;
+            }
+        }
         return view('approveInvestment', [
+            'loggedIn' => $loggedIn,
             'investments' => $investments
         ]);
     }
@@ -100,7 +208,34 @@ class InvestmentController extends Controller {
                     ->where('investments.isActive', '!=', 3)
                     ->get();
 
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        foreach ($loggedIn as $key => $value) {
+            if($value->user_type_id == "1") {
+                $loggedIn->administrator = true;
+            }
+            if($value->user_type_id == "2") {
+                $loggedIn->project = true;
+            }
+            if($value->user_type_id == "3") {
+                $loggedIn->investor = true;
+            }
+            if($value->user_type_id == "4") {
+                $loggedIn->RHA = true;
+            }
+            if($value->user_type_id == "5") {
+                $loggedIn->RDB = true;
+            }
+        }
         return view('approveInvestment', [
+            'loggedIn' => $loggedIn,
             'investments' => $investments
         ]);
     }
@@ -114,7 +249,34 @@ class InvestmentController extends Controller {
                     ->where('investments.id', $id)
                     ->first();
 
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        foreach ($loggedIn as $key => $value) {
+            if($value->user_type_id == "1") {
+                $loggedIn->administrator = true;
+            }
+            if($value->user_type_id == "2") {
+                $loggedIn->project = true;
+            }
+            if($value->user_type_id == "3") {
+                $loggedIn->investor = true;
+            }
+            if($value->user_type_id == "4") {
+                $loggedIn->RHA = true;
+            }
+            if($value->user_type_id == "5") {
+                $loggedIn->RDB = true;
+            }
+        }
         return view('investmentDetails', [
+            'loggedIn' => $loggedIn,
             'investment' => $investment
         ]);
     }

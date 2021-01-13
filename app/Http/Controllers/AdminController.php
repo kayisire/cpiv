@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
+use DB;
 use Auth;
+use Redirect;
+use Validator;
+
 use App\Models\User;
 use App\Models\Profile;
 use App\Charts\Analytics;
@@ -27,7 +31,34 @@ class AdminController extends Controller {
         $analytics2->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
         $analytics2->dataset('Project Creation', 'bar', [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]);
 
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        foreach ($loggedIn as $key => $value) {
+            if($value->user_type_id == "1") {
+                $loggedIn->administrator = true;
+            }
+            if($value->user_type_id == "2") {
+                $loggedIn->project = true;
+            }
+            if($value->user_type_id == "3") {
+                $loggedIn->investor = true;
+            }
+            if($value->user_type_id == "4") {
+                $loggedIn->RHA = true;
+            }
+            if($value->user_type_id == "5") {
+                $loggedIn->RDB = true;
+            }
+        }
         return view('home', [
+            'loggedIn' => $loggedIn,
             'investors' => 80,
             'owners' => 134,
             'projects' => 50,

@@ -37,30 +37,54 @@
                     <!-- Left Side Of Navbar -->
                     @auth
                     <ul class="navbar-nav ml-auto">
+                        @if($loggedIn->administrator)
                         <li class="nav-item mr-4">
                             <a href="/home" class="nav-link {{ Request::is(['home']) ? 'active' : null }}">
                                 <i class="fa fa-home mr-2"></i>
                                 Dashboard
                             </a>
                         </li>
+                        @endif
+                        @if($loggedIn->administrator)
                         <li class="nav-item mr-4">
                             <a href="/accounts" class="nav-link {{ Request::is(['accounts', 'accounts/types/new', 'accounts/types', 'accounts/assign']) ? 'active' : null }}">
                                 <i class="fa fa-users mr-2"></i>
                                 Manage Accounts
                             </a>
                         </li>
+                        @endif
+                        @if($loggedIn->RHA)
                         <li class="nav-item mr-4">
                             <a href="/projects/pending" class="nav-link {{ Request::is(['projects', 'projects/*']) ? 'active' : null }}">
                                 <i class="fa fa-boxes mr-2"></i>
                                 Manage Projects
                             </a>
                         </li>
+                        @endif
+                        @if($loggedIn->project)
+                        <li class="nav-item mr-4">
+                            <a href="/projects" class="nav-link {{ Request::is(['projects', 'projects/*']) ? 'active' : null }}">
+                                <i class="fa fa-boxes mr-2"></i>
+                                Manage Projects
+                            </a>
+                        </li>
+                        @endif
+                        @if($loggedIn->investor)
                         <li class="nav-item mr-4">
                             <a href="/investments" class="nav-link {{ Request::is(['investments', 'investments/*']) ? 'active' : null }}">
                                 <i class="fa fa-money-bill-wave mr-2"></i>
                                 Investments
                             </a>
                         </li>
+                        @endif
+                        @if($loggedIn->RDB)
+                        <li class="nav-item mr-4">
+                            <a href="/investments/pending" class="nav-link {{ Request::is(['investments', 'investments/*']) ? 'active' : null }}">
+                                <i class="fa fa-money-bill-wave mr-2"></i>
+                                Manage Investments
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                     @endauth
 

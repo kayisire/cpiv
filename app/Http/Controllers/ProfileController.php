@@ -14,12 +14,40 @@ use App\Models\Profile;
 
 class ProfileController extends Controller {
     public function index(){
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        foreach ($loggedIn as $key => $value) {
+            if($value->user_type_id == "1") {
+                $loggedIn->administrator = true;
+            }
+            if($value->user_type_id == "2") {
+                $loggedIn->project = true;
+            }
+            if($value->user_type_id == "3") {
+                $loggedIn->investor = true;
+            }
+            if($value->user_type_id == "4") {
+                $loggedIn->RHA = true;
+            }
+            if($value->user_type_id == "5") {
+                $loggedIn->RDB = true;
+            }
+        }
+
         $userType = UserByType::where('user_id', Auth::user()->id)->first();
         $type = "N/A";
 
         $profile = Profile::where('user_id', Auth::user()->id)->first();
         if(!$profile){
             return view('profile', [
+                "loggedIn" => $loggedIn,
                 "fullnames" => "",
                 "nid" => "",
                 "tin" => "",
@@ -31,6 +59,7 @@ class ProfileController extends Controller {
         }
 
         return view('profile', [
+            "loggedIn" => $loggedIn,
             "fullnames" => $profile->fullnames,
             "nid" => $profile->nid,
             "tin" => $profile->tin,
