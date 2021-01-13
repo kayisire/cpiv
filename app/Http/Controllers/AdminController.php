@@ -35,7 +35,7 @@ class AdminController extends Controller {
     public function index() {
         $profile = Profile::where('user_id', Auth::user()->id)->first();
         if(!$profile){
-            return redirect('/projects');
+            return redirect('/profile');
         }
 
         $check = DB::table('users')
