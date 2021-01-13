@@ -12,6 +12,7 @@ use App\Http\Controllers\UserTypeController;
 
 Auth::routes();
 Route::get('/', [AdminController::class, 'welcome']);
+Route::get('/locked', [AdminController::class, 'locked'])->middleware('auth');
 Route::get('/home', [AdminController::class, 'index'])->middleware('auth');
 
 Route::get('/accounts', [UserController::class, 'index'])->middleware('auth');

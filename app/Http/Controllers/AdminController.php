@@ -17,10 +17,33 @@ class AdminController extends Controller {
         return view('welcome');
     }
 
+    public function locked() {
+        $loggedIn = DB::table('users')
+                        ->join('user_by_types', 'user_by_types.user_id', 'users.id')
+                        ->select('users.id', 'user_by_types.user_type_id')
+                        ->get();
+        $loggedIn->administrator = false;
+        $loggedIn->project = false;
+        $loggedIn->investor = false;
+        $loggedIn->RHA = false;
+        $loggedIn->RDB = false;
+        return view('locked', [
+            'loggedIn' => $loggedIn,
+        ]);
+    }
+
     public function index() {
         $profile = Profile::where('user_id', Auth::user()->id)->first();
         if(!$profile){
-            return redirect('profile');
+            return redirect('/projects');
+        }
+
+        $check = DB::table('users')
+                        ->join('profile', 'profile.user_id', 'users.id')
+                        ->select('users.id', 'profile.isActive')
+                        ->first();
+        if(!$check->isActive) {
+            return redirect('/locked');
         }
 
         $analytics = new Analytics;
