@@ -57,13 +57,24 @@ class AdminController extends Controller {
                 $loggedIn->RDB = true;
             }
         }
-        return view('home', [
-            'loggedIn' => $loggedIn,
-            'investors' => 80,
-            'owners' => 134,
-            'projects' => 50,
-            'analytics' => $analytics,
-            'analytics2' => $analytics2
-        ]);
+
+        if($loggedIn->administrator) {
+            return view('home', [
+                'loggedIn' => $loggedIn,
+                'investors' => 80,
+                'owners' => 134,
+                'projects' => 50,
+                'analytics' => $analytics,
+                'analytics2' => $analytics2
+            ]);
+        } else if($loggedIn->project) {
+            return redirect('/projects');
+        } else if($loggedIn->investor) {
+            return redirect('/investments');
+        } else if($loggedIn->RHA) {
+            return redirect('/projects/pending');
+        } else if($loggedIn->RDB) {
+            return redirect('/investments/pending');
+        }
     }
 }
