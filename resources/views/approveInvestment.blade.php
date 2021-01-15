@@ -44,12 +44,12 @@
                             @if (count($investments))
                             @foreach ($investments as $investment)
                             <td>
-                                <a href="/projects/{{ $investment->investment_id }}/view">
+                                <a href="/projects/{{ $investment->id }}/view">
                                     <img src="{{ $investment->pic_url }}" alt="" width="75">
                                 </a>
                             </td>
                             <td>
-                                <a href="/projects/{{ $investment->investment_id }}/view" class="text-decoration-none">
+                                <a href="/projects/{{ $investment->id }}/view" class="text-decoration-none">
                                     <span>{{ $investment->title }}</span><br>
                                 </a>
                                 <small class="text-muted font-italic">Uploaded: <span class="font-weight-bolder">{{ \Carbon\Carbon::parse($investment->created_at)->diffForHumans() }}</span></small>
