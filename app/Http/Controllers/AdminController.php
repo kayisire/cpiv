@@ -21,6 +21,7 @@ class AdminController extends Controller {
         $loggedIn = DB::table('users')
                         ->join('user_by_types', 'user_by_types.user_id', 'users.id')
                         ->select('users.id', 'user_by_types.user_type_id')
+                        ->where('users.id', Auth::user()->id)
                         ->get();
         $loggedIn->administrator = false;
         $loggedIn->project = false;
@@ -57,7 +58,9 @@ class AdminController extends Controller {
         $loggedIn = DB::table('users')
                         ->join('user_by_types', 'user_by_types.user_id', 'users.id')
                         ->select('users.id', 'user_by_types.user_type_id')
+                        ->where('users.id', Auth::user()->id)
                         ->get();
+
         $loggedIn->administrator = false;
         $loggedIn->project = false;
         $loggedIn->investor = false;

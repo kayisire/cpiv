@@ -44,12 +44,12 @@
                             @if (count($investments))
                             @foreach ($investments as $investment)
                             <td>
-                                <a href="/projects/{{ $investment->id }}/view">
+                                <a href="/projects/{{ $investment->investment_id }}/view">
                                     <img src="{{ $investment->pic_url }}" alt="" width="75">
                                 </a>
                             </td>
                             <td>
-                                <a href="/projects/{{ $investment->id }}/view" class="text-decoration-none">
+                                <a href="/projects/{{ $investment->investment_id }}/view" class="text-decoration-none">
                                     <span>{{ $investment->title }}</span><br>
                                 </a>
                                 <small class="text-muted font-italic">Uploaded: <span class="font-weight-bolder">{{ \Carbon\Carbon::parse($investment->created_at)->diffForHumans() }}</span></small>
@@ -62,15 +62,15 @@
                             <td>{{ number_format($investment->invested) }} Rwf</td>
                             @if(REQUEST::is('investments/pending'))
                             <td>
-                                <a href="/investments/{{ $investment->id }}/approve" class="btn btn-sm btn-outline-success float-right my-1">
+                                <a href="/investments/{{ $investment->investment_id }}/approve" class="btn btn-sm btn-outline-success float-right my-1">
                                     <i class="fa fa-check"></i>
                                     <span class="d-none d-sm-inline ml-2">Approve</span>
                                 </a><br>
-                                <a href="/investments/{{ $investment->id }}/suspend" class="btn btn-sm btn-outline-danger float-right my-1">
+                                <a href="/investments/{{ $investment->investment_id }}/suspend" class="btn btn-sm btn-outline-danger float-right my-1">
                                     <i class="fa fa-times"></i>
                                     <span class="d-none d-sm-inline ml-2">Suspend</span>
                                 </a><br>
-                                <a href="/investments/{{ $investment->id }}/view" class="btn btn-sm btn-outline-primary float-right my-1">
+                                <a href="/investments/{{ $investment->investment_id }}/view" class="btn btn-sm btn-outline-primary float-right my-1">
                                     <i class="fa fa-eye"></i>
                                     <span class="d-none d-sm-inline ml-2">View Details</span>
                                 </a>
