@@ -14,7 +14,7 @@ use App\Charts\Analytics;
 
 class AdminController extends Controller {
     public function welcome() {
-        return view('welcome');
+        return redirect('/login');
     }
 
     public function locked() {
