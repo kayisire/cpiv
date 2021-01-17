@@ -284,6 +284,13 @@ class ProjectController extends Controller {
                     ->where('projects.id', $id)
                     ->first();
 
+        $investments = DB::table('investments')
+                        ->join('profiles', 'investments.user_id', 'profiles.user_id')
+                        ->join('users', 'profiles.user_id', 'users.id')
+                        ->select('investments.*', 'profiles.fullnames', 'users.email', 'profiles.phone')
+                        ->where('investments.project_id', $project->id)
+                        ->get();
+
         $loggedIn = DB::table('users')
                         ->join('user_by_types', 'user_by_types.user_id', 'users.id')
                         ->select('users.id', 'user_by_types.user_type_id')
@@ -311,9 +318,11 @@ class ProjectController extends Controller {
                 $loggedIn->RDB = true;
             }
         }
+
         return view('project', [
             'loggedIn' => $loggedIn,
-            'project' => $project
+            'project' => $project,
+            'investments' => $investments
         ]);
     }
 

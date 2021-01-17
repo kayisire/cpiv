@@ -113,6 +113,58 @@
                         </tbody>
                     </table>
                     @endif
+                    @if(count($investments))
+                    <hr>
+                    <h3 class="h6 font-weight-bold">Investors Section:</h3>
+                    <table class="table table-hover">
+                        <thead>
+                            <th>Investor Info</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            @foreach ($investments as $investment)
+                            @if($investment->isActive != 99)
+                            <tr>
+                                <td>
+                                    <span>{{ $investment->fullnames }}</span><br>
+                                    <small>{{ $investment->email }}</small><br>
+                                    <small class="text-muted">{{ $investment->phone }}</small>
+                                </td>
+                                <td>
+                                    <b>{{ number_format($investment->amount) }} Rwf</b>
+                                </td>
+                                <td>{{ $investment->paymentDate }}</td>
+                                @if($investment->isActive == 0)
+                                <td>
+                                    <a href="/investments/{{ $investment->id }}/approve" class="btn btn-sm btn-outline-success float-right mx-1">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                    <a href="/investments/{{ $investment->id }}/suspend" class="btn btn-sm btn-outline-danger float-right mx-1">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                    <a href="/investments/{{ $investment->id }}/view" class="btn btn-sm btn-outline-primary float-right my-1">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </td>
+                                @else
+                                <td>
+                                    @if($investment->isActive == 1)
+                                        <span class="badge badge-pill badge-warning">Pending Review</span>
+                                    @elseif($investment->isActive == 3)
+                                        <span class="badge badge-pill badge-success">Approved by RDB</span>
+                                    @else
+                                        <span class="badge badge-pill badge-danger">Suspended</span>
+                                    @endif
+                                </td>
+                                @endif
+                            </tr>
+                            @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @endif
                 </div>
             </div>
         </div>
