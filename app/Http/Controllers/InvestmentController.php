@@ -64,11 +64,19 @@ class InvestmentController extends Controller {
                     ->where('projects.id', $id)
                     ->first();
 
+        $investments = DB::table('investments')
+                    ->join('profiles', 'investments.user_id', 'profiles.user_id')
+                    ->join('users', 'profiles.user_id', 'users.id')
+                    ->select('investments.*', 'profiles.fullnames', 'users.email', 'profiles.phone')
+                    ->where('investments.project_id', $project->id)
+                    ->get();
+
         $loggedIn = DB::table('users')
                         ->join('user_by_types', 'user_by_types.user_id', 'users.id')
                         ->select('users.id', 'user_by_types.user_type_id')
                         ->where('users.id', Auth::user()->id)
                         ->get();
+
         $loggedIn->administrator = false;
         $loggedIn->project = false;
         $loggedIn->investor = false;
@@ -93,7 +101,8 @@ class InvestmentController extends Controller {
         }
         return view('investProject', [
             'loggedIn' => $loggedIn,
-            'project' => $project
+            'project' => $project,
+            'investments' => $investments
         ]);
     }
 
@@ -101,6 +110,7 @@ class InvestmentController extends Controller {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
             'notes' => 'required',
+            'proof' => 'required',
             'paymentDate' => 'required|date',
         ]);
 
@@ -112,6 +122,7 @@ class InvestmentController extends Controller {
         $investment->amount = $request->amount;
         $investment->paymentDate = $request->paymentDate;
         $investment->notes = cloudinary()->uploadFile($request->file('notes')->getRealPath())->getSecurePath();
+        $investment->proof = cloudinary()->uploadFile($request->file('proof')->getRealPath())->getSecurePath();
         $investment->project_id = $request->project;
         $investment->user_id = Auth::user()->id;
         $investment->isActive = 0;
@@ -124,7 +135,7 @@ class InvestmentController extends Controller {
         $investments = DB::table('investments')
                     ->join('projects', 'projects.id', 'investments.project_id')
                     ->select('investments.amount as invested', 'investments.paymentDate', 'investments.notes', 'investments.project_id', 'investments.user_id', 'investments.isActive as status', 'investments.created_at as investedOn', 'projects.*')
-                    ->where('projects.user_id', Auth::user()->id)
+                    ->where('investments.user_id', Auth::user()->id)
                     ->get();
 
         $loggedIn = DB::table('users')
@@ -166,7 +177,7 @@ class InvestmentController extends Controller {
                     ->join('users', 'users.id', 'investments.user_id')
                     ->join('profiles', 'profiles.user_id', 'users.id')
                     ->select('projects.*', 'investments.id as investment_id', 'investments.amount as invested', 'investments.paymentDate', 'investments.notes', 'investments.project_id', 'investments.user_id', 'investments.isActive as status', 'investments.created_at as investedOn', 'users.email', 'users.id', 'profiles.fullnames', 'profiles.phone')
-                    ->where('investments.isActive', 0)
+                    ->where('investments.isActive', 1)
                     ->get();
 
         $loggedIn = DB::table('users')
@@ -209,7 +220,8 @@ class InvestmentController extends Controller {
                     ->join('profiles', 'profiles.user_id', 'users.id')
                     ->select('projects.*', 'investments.amount as invested', 'investments.paymentDate', 'investments.notes', 'investments.project_id', 'investments.user_id', 'investments.isActive as status', 'investments.created_at as investedOn', 'users.email', 'users.id', 'profiles.fullnames', 'profiles.phone')
                     ->where('investments.isActive', '!=', 0)
-                    ->where('investments.isActive', '!=', 3)
+                    ->where('investments.isActive', '!=', 1)
+                    ->where('investments.isActive', '!=', 99)
                     ->get();
 
         $loggedIn = DB::table('users')
@@ -250,7 +262,7 @@ class InvestmentController extends Controller {
                     ->join('projects', 'projects.id', 'investments.project_id')
                     ->join('users', 'users.id', 'projects.user_id')
                     ->join('profiles', 'profiles.user_id', 'users.id')
-                    ->select('projects.*', 'investments.amount as invested', 'investments.paymentDate', 'investments.notes', 'investments.project_id', 'investments.user_id', 'investments.isActive as status', 'investments.created_at as investedOn', 'users.email', 'users.id', 'profiles.fullnames', 'profiles.phone')
+                    ->select('projects.*', 'investments.amount as invested', 'investments.paymentDate', 'investments.notes', 'investments.proof', 'investments.project_id', 'investments.user_id', 'investments.isActive as status', 'investments.created_at as investedOn', 'users.email', 'users.id', 'profiles.fullnames', 'profiles.phone')
                     ->where('investments.id', $id)
                     ->first();
 
@@ -295,6 +307,14 @@ class InvestmentController extends Controller {
         return redirect('/investments/pending')->with('success','Investment Approved Successfully');
     }
 
+    public function approvedByRDB($id) {
+        $project = Investment::find($id);
+        $project->isActive = 3;
+        $project->save();
+
+        return redirect('/investments/pending')->with('success','Investment Suspended Successfully');
+    }
+
     public function suspend($id) {
         $project = Investment::find($id);
         $project->isActive = 2;
@@ -305,7 +325,7 @@ class InvestmentController extends Controller {
 
     public function delete($id) {
         $project = Investment::find($id);
-        $project->isActive = 3;
+        $project->isActive = 99;
         $project->save();
 
         return redirect('/investments/my')->with('success','Investment Deleted Successfully');

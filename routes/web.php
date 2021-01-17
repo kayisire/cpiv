@@ -50,6 +50,7 @@ Route::get('/investments/pending', [InvestmentController::class, 'pending'])->mi
 Route::get('/investments/all', [InvestmentController::class, 'allMade'])->middleware('auth');
 Route::get('/investments/{id}/view', [InvestmentController::class, 'view'])->middleware('auth');
 Route::get('/investments/{id}/approve', [InvestmentController::class, 'approve'])->middleware('auth');
+Route::get('/investments/{id}/approved', [InvestmentController::class, 'approvedByRDB'])->middleware('auth');
 Route::get('/investments/{id}/suspend', [InvestmentController::class, 'suspend'])->middleware('auth');
 Route::get('/investments/{id}/delete', [InvestmentController::class, 'delete'])->middleware('auth');
 

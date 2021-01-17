@@ -91,6 +91,17 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="proof" class="col-md-3 col-form-label text-md-right">Proof of Payment <br><small class="text-muted">(in PDF)</small></label>
+                            <div class="col-md-9">
+                                <input id="proof" type="file" accept="application/pdf" class="form-control @error('proof') is-invalid @enderror" name="proof" value="{{ old('proof') }}" required>
+                                @error('proof')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary float-right">
@@ -99,19 +110,43 @@
                             </div>
                         </div>
                     </form>
-                    @if (true)
+                    @if(count($investments))
                     <hr>
-                    <h6 class="h6 font-weight-bold">Investments Made:</h6>
+                    <h3 class="h6 font-weight-bold">Investors Section:</h3>
                     <table class="table table-hover">
                         <thead>
-                            <th>Invsestor</th>
+                            <th>Investor Info</th>
                             <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th></th>
                         </thead>
                         <tbody>
+                            @foreach ($investments as $investment)
+                            @if($investment->isActive != 99)
                             <tr>
-                                <td>Kevin</td>
-                                <td>{{ number_format(1000) }} Rwf</td>
+                                <td>
+                                    <span>{{ $investment->fullnames }}</span><br>
+                                    <small>{{ $investment->email }}</small><br>
+                                    <small class="text-muted">{{ $investment->phone }}</small>
+                                </td>
+                                <td>
+                                    <b>{{ number_format($investment->amount) }} Rwf</b>
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($investment->paymentDate)->diffForHumans() }}</td>
+                                <td>
+                                    @if($investment->isActive == 0)
+                                        <span class="badge badge-pill badge-warning">Pending Owner Review</span>
+                                    @elseif($investment->isActive == 1)
+                                        <span class="badge badge-pill badge-warning">Pending RDB Review</span>
+                                    @elseif($investment->isActive == 2)
+                                        <span class="badge badge-pill badge-danger">Suspended</span>
+                                    @elseif($investment->isActive == 3)
+                                        <span class="badge badge-pill badge-success">Approved</span>
+                                    @endif
+                                </td>
                             </tr>
+                            @endif
+                            @endforeach
                         </tbody>
                     </table>
                     @endif
