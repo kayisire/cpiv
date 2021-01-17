@@ -27,12 +27,14 @@
                 <div class="card-header">
                     <span class="float-left">Project Title: <b>{{ \Illuminate\Support\Str::limit($investment->title, $limit = 15, $end = '...') }}</b></span>
                     <span class="float-right">
-                        @if($investment->status == 1)
-                            <span class="badge badge-pill badge-success">Approved</span>
-                        @elseif($investment->status == 0)
-                            <span class="badge badge-pill badge-warning">Pending Review</span>
-                        @else
+                        @if($investment->status == 0)
+                            <span class="badge badge-pill badge-warning">Pending Owner Review</span>
+                        @elseif($investment->status == 1)
+                            <span class="badge badge-pill badge-warning">Pending RDB Review</span>
+                        @elseif($investment->status == 2)
                             <span class="badge badge-pill badge-danger">Suspended</span>
+                        @elseif($investment->status == 3)
+                            <span class="badge badge-pill badge-success">Approved</span>
                         @endif
                     </span>
                 </div>
@@ -100,7 +102,11 @@
                     </p>
                     <p>
                         <span class="font-weight-bold">Investment Document: </span><br>
-                        <a href="{{ $investment->files }}" class="btn btn-md btn-outline-primary">Download Files Here</a>
+                        <a href="{{ $investment->notes }}" class="btn btn-md btn-outline-primary">Download Files Here</a>
+                    </p>
+                    <p>
+                        <span class="font-weight-bold">Proof of Payment: </span><br>
+                        <a href="{{ $investment->proof }}" class="btn btn-md btn-outline-primary">Download Files Here</a>
                     </p>
                     <p>
                         <span class="font-weight-bold">Pledged Payment Date: </span> {{ $investment->paymentDate }}

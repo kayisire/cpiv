@@ -43,6 +43,7 @@
                         <tbody>
                             @if (count($investments))
                             @foreach ($investments as $investment)
+                            @if ($investment->status != 99)
                             <tr>
                                 <td>
                                     <a href="/investments/{{ $investment->id }}/view">
@@ -59,12 +60,14 @@
                                     <span>{{ number_format($investment->invested) }} Rwf</span><br>
                                 </td>
                                 <td>
-                                    @if($investment->status == 1)
-                                        <span class="badge badge-pill badge-success">Approved</span>
-                                    @elseif($investment->status == 0)
-                                        <span class="badge badge-pill badge-warning">Pending Review</span>
-                                    @else
+                                    @if($investment->status == 0)
+                                        <span class="badge badge-pill badge-warning">Pending Owner Review</span>
+                                    @elseif($investment->status == 1)
+                                        <span class="badge badge-pill badge-warning">Pending RDB Review</span>
+                                    @elseif($investment->status == 2)
                                         <span class="badge badge-pill badge-danger">Suspended</span>
+                                    @elseif($investment->status == 3)
+                                        <span class="badge badge-pill badge-success">Approved</span>
                                     @endif
                                 </td>
                                 <td>
@@ -74,6 +77,7 @@
                                     </a>
                                 </td>
                             </tr>
+                            @endif
                             @endforeach
                             @else
                             <tr>

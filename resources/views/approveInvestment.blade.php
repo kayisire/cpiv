@@ -43,6 +43,8 @@
                         <tbody>
                             @if (count($investments))
                             @foreach ($investments as $investment)
+                            @if($investment->isActive != 99)
+                            <tr>
                             <td>
                                 <a href="/projects/{{ $investment->id }}/view">
                                     <img src="{{ $investment->pic_url }}" alt="" width="75">
@@ -62,7 +64,7 @@
                             <td>{{ number_format($investment->invested) }} Rwf</td>
                             @if(REQUEST::is('investments/pending'))
                             <td>
-                                <a href="/investments/{{ $investment->investment_id }}/approve" class="btn btn-sm btn-outline-success float-right my-1">
+                                <a href="/investments/{{ $investment->investment_id }}/approved" class="btn btn-sm btn-outline-success float-right my-1">
                                     <i class="fa fa-check"></i>
                                     <span class="d-none d-sm-inline ml-2">Approve</span>
                                 </a><br>
@@ -77,14 +79,14 @@
                             </td>
                             @else
                             <td>
-                                @if($investment->status == 1)
+                                @if($investment->status == 3)
                                     <span class="badge badge-pill badge-success">Approved</span>
-                                @elseif($investment->status == 0)
-                                    <span class="badge badge-pill badge-warning">Pending Review</span>
-                                @else
+                                @elseif($investment->status == 2)
                                     <span class="badge badge-pill badge-danger">Suspended</span>
                                 @endif
                             </td>
+                            @endif
+                            </tr>
                             @endif
                             @endforeach
                             @else
