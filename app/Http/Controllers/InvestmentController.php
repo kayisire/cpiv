@@ -110,7 +110,6 @@ class InvestmentController extends Controller {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
             'notes' => 'required',
-            'proof' => 'required',
             'paymentDate' => 'required|date',
         ]);
 
@@ -122,7 +121,7 @@ class InvestmentController extends Controller {
         $investment->amount = $request->amount;
         $investment->paymentDate = $request->paymentDate;
         $investment->notes = cloudinary()->uploadFile($request->file('notes')->getRealPath())->getSecurePath();
-        $investment->proof = cloudinary()->uploadFile($request->file('proof')->getRealPath())->getSecurePath();
+        $investment->proof = "";
         $investment->project_id = $request->project;
         $investment->user_id = Auth::user()->id;
         $investment->isActive = 0;

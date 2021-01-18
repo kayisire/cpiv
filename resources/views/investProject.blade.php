@@ -91,17 +91,6 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="proof" class="col-md-3 col-form-label text-md-right">Proof of Payment <br><small class="text-muted">(in PDF)</small></label>
-                            <div class="col-md-9">
-                                <input id="proof" type="file" accept="application/pdf" class="form-control @error('proof') is-invalid @enderror" name="proof" value="{{ old('proof') }}" required>
-                                @error('proof')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary float-right">

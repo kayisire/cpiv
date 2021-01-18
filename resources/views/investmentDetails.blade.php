@@ -105,10 +105,6 @@
                         <a href="{{ $investment->notes }}" class="btn btn-md btn-outline-primary">Download Files Here</a>
                     </p>
                     <p>
-                        <span class="font-weight-bold">Proof of Payment: </span><br>
-                        <a href="{{ $investment->proof }}" class="btn btn-md btn-outline-primary">Download Files Here</a>
-                    </p>
-                    <p>
                         <span class="font-weight-bold">Pledged Payment Date: </span> {{ $investment->paymentDate }}
                     </p>
                 </div>
