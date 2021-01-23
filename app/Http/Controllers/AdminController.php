@@ -11,6 +11,8 @@ use Validator;
 use App\Models\User;
 use App\Models\Profile;
 use App\Charts\Analytics;
+use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class AdminController extends Controller {
     public function welcome() {
@@ -47,13 +49,38 @@ class AdminController extends Controller {
             return redirect('/locked');
         }
 
-        $analytics = new Analytics;
-        $analytics->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-        $analytics->dataset('User Acquisition', 'line', [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]);
+        $ownners= DB::table('user_by_types')
+                         ->where('user_type_id',2)
+                         ->count();
+        
+        $innvestors= DB::table('user_by_types')
+                         ->where('user_type_id',3)
+                         ->count();
+        
+        $projjects= DB::table('projects')
+                         ->count();
 
-        $analytics2 = new Analytics;
-        $analytics2->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-        $analytics2->dataset('Project Creation', 'bar', [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]);
+        $invv = DB::table('projects')
+                    ->join('investments', 'projects.id', 'investments.project_id')
+                    ->select('projects.id', 'projects.title', 'projects.amount', 'projects.isActive as projectStatus', DB::raw('sum(investments.amount) as investment'), 'investments.isActive', 'investments.project_id')
+                    ->where('projects.isActive', 1)
+                    ->where('investments.isActive', 3)
+                    ->groupBy('investments.project_id')
+                    ->get();
+        
+        $titles = array();
+        $amount = array();
+        $investments = array();
+        for($a = 0; $a < count($invv); $a++){
+            array_push($titles, $invv[$a]->title);
+            array_push($amount, $invv[$a]->amount);
+            array_push($investments, $invv[$a]->investment);
+        }
+        
+        $analytics = new Analytics;
+        $analytics->labels($titles);
+        $analytics->dataset('Amount', 'bar', $amount);
+        $analytics->dataset('Investment', 'bar', $investments);
 
         $loggedIn = DB::table('users')
                         ->join('user_by_types', 'user_by_types.user_id', 'users.id')
@@ -87,11 +114,10 @@ class AdminController extends Controller {
         if($loggedIn->administrator) {
             return view('home', [
                 'loggedIn' => $loggedIn,
-                'investors' => 80,
-                'owners' => 134,
-                'projects' => 50,
-                'analytics' => $analytics,
-                'analytics2' => $analytics2
+                'investors' => $innvestors,
+                'owners' => $ownners,
+                'projects' => $projjects,
+                'analytics' => $analytics
             ]);
         } else if($loggedIn->project) {
             return redirect('/projects');

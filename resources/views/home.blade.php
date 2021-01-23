@@ -48,17 +48,9 @@
             <div class="card mb-3">
                 <div class="card-header">Analytics</div>
                 <div class="card-body">
-                    <h3 class="h3 border-bottom pb-3">User Acquisition</h3>
+                    <h3 class="h3 border-bottom pb-3">Investments</h3>
                     {!! $analytics->container() !!}
                     {!! $analytics->script() !!}
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">Analytics</div>
-                <div class="card-body">
-                    <h3 class="h3 border-bottom pb-3">Projects Creation</h3>
-                    {!! $analytics2->container() !!}
-                    {!! $analytics2->script() !!}
                 </div>
             </div>
         </div>
